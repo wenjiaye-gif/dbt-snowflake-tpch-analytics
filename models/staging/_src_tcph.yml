@@ -1,0 +1,123 @@
+
+version: 2
+
+sources:
+  - name: tpch_sf1
+    database: SNOWFLAKE_SAMPLE_DATA
+    schema: TPCH_SF1
+
+    tables:
+      - name: CUSTOMER
+        columns:
+          - name: C_CUSTKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: C_NAME
+          - name: C_ADDRESS
+          - name: C_NATIONKEY
+          - name: C_PHONE
+          - name: C_ACCTBAL
+          - name: C_MKTSEGMENT
+          - name: C_COMMENT
+
+      - name: LINEITEM
+        columns:
+          - name: L_ORDERKEY
+            data_tests:
+              - not_null
+          - name: L_PARTKEY
+            data_tests:
+              - not_null
+          - name: L_SUPPKEY
+            data_tests:
+              - not_null
+          - name: L_LINENUMBER
+            data_tests:
+              - not_null
+          - name: L_QUANTITY
+          - name: L_EXTENDEDPRICE
+          - name: L_DISCOUNT
+          - name: L_TAX
+          - name: L_RETURNFLAG
+          - name: L_LINESTATUS
+          - name: L_SHIPDATE
+          - name: L_COMMITDATE
+          - name: L_RECEIPTDATE
+          - name: L_SHIPINSTRUCT
+          - name: L_SHIPMODE
+          - name: L_COMMENT
+
+      - name: NATION
+        columns:
+          - name: N_NATIONKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: N_NAME
+          - name: N_REGIONKEY
+          - name: N_COMMENT
+
+      - name: ORDERS
+        columns:
+          - name: O_ORDERKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: O_CUSTKEY
+          - name: O_ORDERSTATUS
+          - name: O_TOTALPRICE
+          - name: O_ORDERDATE
+          - name: O_ORDERPRIORITY
+          - name: O_CLERK
+          - name: O_SHIPPRIORITY
+          - name: O_COMMENT
+
+      - name: PART
+        columns:
+          - name: P_PARTKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: P_NAME
+          - name: P_MFGR
+          - name: P_BRAND
+          - name: P_TYPE
+          - name: P_SIZE
+          - name: P_CONTAINER
+          - name: P_RETAILPRICE
+          - name: P_COMMENT
+
+      - name: PARTSUPP
+        columns:
+          - name: PS_PARTKEY
+            data_tests:
+              - not_null
+          - name: PS_SUPPKEY
+            data_tests:
+              - not_null
+          - name: PS_AVAILQTY
+          - name: PS_SUPPLYCOST
+          - name: PS_COMMENT
+
+      - name: REGION
+        columns:
+          - name: R_REGIONKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: R_NAME
+          - name: R_COMMENT
+
+      - name: SUPPLIER
+        columns:
+          - name: S_SUPPKEY
+            data_tests:
+              - unique
+              - not_null
+          - name: S_NAME
+          - name: S_ADDRESS
+          - name: S_NATIONKEY
+          - name: S_PHONE
+          - name: S_ACCTBAL
+          - name: S_COMMENT
