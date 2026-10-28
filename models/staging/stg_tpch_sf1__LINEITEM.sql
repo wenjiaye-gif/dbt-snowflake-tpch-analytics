@@ -1,3 +1,4 @@
+
 {{
     config(
         materialized='incremental',
@@ -5,7 +6,7 @@
     )
 }}
 
-with 
+with
 
 source as (
 
@@ -34,6 +35,15 @@ renamed as (
         l_comment
 
     from source
+
+    {% if is_incremental() %}
+
+    where l_shipdate > (
+        select coalesce(max(l_shipdate), '1900-01-01'::date)
+        from {{ this }}
+    )
+
+    {% endif %}
 
 )
 
