@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized='incremental',
+        unique_key=['l_orderkey', 'l_linenumber']
+    )
+}}
+
 with 
 
 source as (
