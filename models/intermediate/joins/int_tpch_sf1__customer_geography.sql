@@ -1,39 +1,29 @@
-{{ config(materialized='view') }}
+{{ config(materialized="view") }}
 
-WITH customer AS (
+with
+    customer as (select * from {{ ref("stg_tpch_sf1__CUSTOMER") }}),
 
-    SELECT *
-    FROM {{ ref('stg_tpch_sf1__CUSTOMER') }}
+    geography as (select * from {{ ref("int_tpch_sf1__geography") }}),
 
-),
+    customer_geography as (
 
-geography AS (
+        select
+            -- Customer
+            customer.c_custkey,
+            customer.c_name,
+            customer.c_mktsegment,
 
-    SELECT *
-    FROM {{ ref('int_tpch_sf1__geography') }}
+            -- Geography
+            geography.n_nationkey,
+            geography.nation_name,
+            geography.r_regionkey as r_regionkey,
+            geography.region_name
 
-),
+        from customer
 
-customer_geography AS (
+        left join geography on customer.c_nationkey = geography.n_nationkey
 
-    SELECT
-        -- Customer
-        customer.c_custkey,
-        customer.c_name,
-        customer.c_mktsegment,
+    )
 
-        -- Geography
-        geography.n_nationkey,
-        geography.nation_name,
-        geography.r_regionkey AS r_regionkey,
-        geography.region_name
-
-    FROM customer
-
-    LEFT JOIN geography
-        ON customer.c_nationkey = geography.n_nationkey
-
-)
-
-SELECT *
-FROM customer_geography
+select *
+from customer_geography
