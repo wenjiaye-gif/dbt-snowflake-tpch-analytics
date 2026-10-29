@@ -21,6 +21,7 @@ order_information AS (
         orders_lineitem.o_orderdate,
         orders_lineitem.order_year,
         orders_lineitem.order_month,
+        orders_lineitem.o_orderstatus,
 
         -- Línea de pedido
         orders_lineitem.l_linenumber,

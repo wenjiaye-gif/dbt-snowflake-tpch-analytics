@@ -23,6 +23,7 @@ orders_lineitem AS (
         orders.o_orderdate,
         orders.order_year,
         orders.order_month,
+        orders.o_orderstatus,
 
         -- Identificadores de la línea de venta
         lineitem.l_linenumber,
