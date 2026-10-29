@@ -29,6 +29,7 @@ orders_lineitem AS (
         lineitem.l_linenumber,
         lineitem.l_partkey,
         lineitem.l_suppkey,
+        lineitem.l_shipdate,
 
         -- Métricas de venta
         lineitem.l_quantity,
@@ -36,7 +37,11 @@ orders_lineitem AS (
         lineitem.l_discount,
         lineitem.l_tax,
         lineitem.gross_sales_amount,
-        lineitem.sales_amount_with_tax
+        lineitem.sales_amount_with_tax,
+        {{ calculate_diff_days(
+            'orders.o_orderdate',
+            'lineitem.l_shipdate') }} AS days_to_ship
+
 
     FROM orders
 
