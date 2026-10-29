@@ -1,49 +1,37 @@
 {{ config(materialized='view') }}
 
-with customer as(
+WITH customer AS (
 
-    select* 
-    from {{ref('stg_tpch_sf1__CUSTOMER')}}
-
-),
-
-nation as(
-
-    select*
-    from {{ref('stg_tpch_sf1__NATION')}}
+    SELECT *
+    FROM {{ ref('stg_tpch_sf1__CUSTOMER') }}
 
 ),
 
-region as(
+geography AS (
 
-    select*
-    from {{ref('stg_tpch_sf1__REGION')}}
+    SELECT *
+    FROM {{ ref('int_tpch_sf1__geography') }}
 
 ),
 
 customer_geography AS (
 
     SELECT
-        -- Cliente
+        -- Customer
         customer.c_custkey,
         customer.c_name,
         customer.c_mktsegment,
 
-        -- Nación
-        nation.n_nationkey,
-        nation.n_name AS nation_name,
-
-        -- Región
-        region.r_regionkey,
-        region.r_name AS region_name
+        -- Geography
+        geography.n_nationkey,
+        geography.nation_name,
+        geography.r_regionkey AS r_regionkey,
+        geography.region_name
 
     FROM customer
 
-    LEFT JOIN nation
-        ON customer.c_nationkey = nation.n_nationkey
-
-    LEFT JOIN region
-        ON nation.n_regionkey = region.r_regionkey
+    LEFT JOIN geography
+        ON customer.c_nationkey = geography.n_nationkey
 
 )
 
