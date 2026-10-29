@@ -41,3 +41,4 @@ dim_date AS (
 
 SELECT *
 FROM dim_date
+ORDER BY order_date ASC

@@ -21,6 +21,7 @@ customer_order AS (
         order_cost.o_orderdate,
         order_cost.order_year,
         order_cost.order_month,
+        order_cost.o_orderstatus,
 
         -- Customer information
         order_cost.o_custkey,
