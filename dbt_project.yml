@@ -40,5 +40,10 @@ models:
   tcph_sf1:
     staging:
       +materialized: table
+    intermediate:
+      staging_trans:
+        +materialized: table
+      joins:
+        +materialized: table
 
 
