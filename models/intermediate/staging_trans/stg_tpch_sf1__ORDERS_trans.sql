@@ -13,10 +13,7 @@ transformed as (
         o_orderstatus,
         o_totalprice,
         o_orderdate,
-
-        year(o_orderdate) as order_year,
-        month(o_orderdate) as order_month,
-
+        {{ extract_year_month('o_orderdate') }},
         o_orderpriority,
         o_shippriority
 
