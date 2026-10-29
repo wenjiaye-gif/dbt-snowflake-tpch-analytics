@@ -45,5 +45,7 @@ models:
         +materialized: table
       joins:
         +materialized: table
+    marts:
+      +materialized: table
 
 
