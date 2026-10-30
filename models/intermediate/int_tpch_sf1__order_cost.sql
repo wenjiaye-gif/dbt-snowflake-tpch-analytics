@@ -1,8 +1,8 @@
 
-WITH order_information AS (
+WITH orders_lineitem AS (
 
     SELECT *
-    FROM {{ ref('int_tpch_sf1__order_information') }}
+    FROM {{ ref('int_tpch_sf1__orders_lineitem') }}
 
 ),
 
@@ -20,44 +20,39 @@ order_cost AS (
 
     SELECT
         -- Order information
-        order_information.o_orderkey,
-        order_information.o_custkey,
-        order_information.o_orderdate,
-        order_information.order_year,
-        order_information.order_month,
-        order_information.o_orderstatus,
+        orders_lineitem.o_orderkey,
+        orders_lineitem.o_custkey,
+        orders_lineitem.o_orderdate,
+        orders_lineitem.order_year,
+        orders_lineitem.order_month,
+        orders_lineitem.o_orderstatus,
 
-        -- Order line
-        order_information.l_linenumber,
-        order_information.l_suppkey,
-        order_information.l_quantity,
+        -- Order line identifiers
+        orders_lineitem.l_linenumber,
+        orders_lineitem.l_partkey,
+        orders_lineitem.l_suppkey,
 
-        -- Product information
-        order_information.p_partkey,
-        order_information.part_name,
-        order_information.part_brand,
-        order_information.part_type,
-        order_information.part_size,
-        order_information.part_container,
+        -- Order line information
+        orders_lineitem.l_quantity,
+        orders_lineitem.l_extendedprice,
+        orders_lineitem.l_discount,
+        orders_lineitem.l_tax,
 
         -- Sales amounts
-        order_information.l_extendedprice,
-        order_information.l_discount,
-        order_information.l_tax,
-        order_information.gross_sales_amount,
-        order_information.sales_amount_with_tax,
+        orders_lineitem.gross_sales_amount,
+        orders_lineitem.sales_amount_with_tax,
 
         -- Product cost
         partsupp.ps_supplycost AS product_unit_cost,
 
-        order_information.l_quantity
+        orders_lineitem.l_quantity
             * partsupp.ps_supplycost AS product_cost
 
-    FROM order_information
+    FROM orders_lineitem
 
     LEFT JOIN partsupp
-        ON order_information.p_partkey = partsupp.ps_partkey
-        AND order_information.l_suppkey = partsupp.ps_suppkey
+        ON orders_lineitem.l_partkey = partsupp.ps_partkey
+        AND orders_lineitem.l_suppkey = partsupp.ps_suppkey
 
 ),
 

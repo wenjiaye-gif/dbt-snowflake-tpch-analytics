@@ -1,6 +1,3 @@
-
-{{ config(materialized="table") }}
-
 WITH order_cost AS (
 
     SELECT *
@@ -68,7 +65,7 @@ fact_sales AS (
         ON order_cost.o_custkey = dim_customer.customer_key
 
     LEFT JOIN dim_product
-        ON order_cost.p_partkey = dim_product.product_key
+        ON order_cost.l_partkey = dim_product.product_key
 
     LEFT JOIN dim_supplier
         ON order_cost.l_suppkey = dim_supplier.supplier_key
