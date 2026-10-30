@@ -22,9 +22,7 @@ order_cost AS (
         -- Order information
         orders_lineitem.o_orderkey,
         orders_lineitem.o_custkey,
-        orders_lineitem.o_orderdate,
-        orders_lineitem.order_year,
-        orders_lineitem.order_month,
+        orders_lineitem.date_key,
         orders_lineitem.o_orderstatus,
 
         -- Order line identifiers

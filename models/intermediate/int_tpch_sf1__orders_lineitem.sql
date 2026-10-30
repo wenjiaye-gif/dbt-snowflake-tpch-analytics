@@ -25,8 +25,7 @@ orders_lineitem AS (
         orders.o_totalprice,
         orders.o_orderdate,
 
-        -- Variables temporales
-        {{ extract_year_month('orders.o_orderdate') }},
+        TO_NUMBER(TO_CHAR(orders.o_orderdate, 'YYYYMMDD')) AS date_key,
 
         orders.o_orderpriority,
         orders.o_shippriority,
