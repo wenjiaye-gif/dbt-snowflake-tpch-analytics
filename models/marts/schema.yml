@@ -10,17 +10,25 @@ models:
           - unique
           - not_null
 
-      - name: order_date
+      - name: full_date
         data_tests:
           - unique
           - not_null
 
-      - name: year
+      - name: year_number
         data_tests:
           - not_null
 
-      - name: month
+      - name: month_number
         data_tests:
+          - not_null
+
+  - name: dim_customer
+    description: "Dimensión de clientes enriquecida con información geográfica."
+    columns:
+      - name: customer_key
+        data_tests:
+          - unique
           - not_null
 
   - name: dim_product
@@ -31,24 +39,16 @@ models:
           - unique
           - not_null
 
-  - name: dim_geography
-    description: "Dimensión geográfica con una fila por nación."
+  - name: dim_supplier
+    description: "Dimensión de proveedores enriquecida con información geográfica."
     columns:
-      - name: geography_key
+      - name: supplier_key
         data_tests:
           - unique
           - not_null
 
-      - name: nation_name
-        data_tests:
-          - not_null
-
-      - name: region_name
-        data_tests:
-          - not_null
-
   - name: fact_sales
-    description: "Hechos de ventas con granularidad de línea de pedido."
+    description: "Tabla de hechos de ventas con granularidad de línea de pedido."
     columns:
       - name: order_key
         data_tests:
@@ -58,13 +58,13 @@ models:
         data_tests:
           - not_null
 
-      - name: date_key
+      - name: customer_key
         data_tests:
           - not_null
           - relationships:
               arguments:
-                to: ref('dim_date')
-                field: date_key
+                to: ref('dim_customer')
+                field: customer_key
 
       - name: product_key
         data_tests:
@@ -74,26 +74,26 @@ models:
                 to: ref('dim_product')
                 field: product_key
 
-      - name: geography_key
+      - name: supplier_key
         data_tests:
           - not_null
           - relationships:
               arguments:
-                to: ref('dim_geography')
-                field: geography_key
+                to: ref('dim_supplier')
+                field: supplier_key
+
+      - name: date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
 
       - name: quantity_sold
         data_tests:
           - not_null
 
       - name: gross_sales_amount
-        data_tests:
-          - not_null
-
-      - name: product_cost
-        data_tests:
-          - not_null
-
-      - name: estimated_profit
         data_tests:
           - not_null

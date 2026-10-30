@@ -1,70 +1,80 @@
 
-WITH customer_order AS (
+{{ config(materialized="table") }}
+
+WITH order_cost AS (
 
     SELECT *
-    FROM {{ ref('int_tpch_sf1__customer_order') }}
+    FROM {{ ref('int_tpch_sf1__order_cost') }}
 
 ),
 
-dim_date AS (
+dim_customer AS (
 
-    SELECT
-        date_key,
-        order_date
-    FROM {{ ref('dim_date') }}
+    SELECT *
+    FROM {{ ref('dim_customer') }}
 
 ),
 
 dim_product AS (
 
-    SELECT
-        product_key
+    SELECT *
     FROM {{ ref('dim_product') }}
 
 ),
 
-dim_geography AS (
+dim_supplier AS (
 
-    SELECT
-        geography_key,
-        nation_name,
-        region_name
-    FROM {{ ref('dim_geography') }}
+    SELECT *
+    FROM {{ ref('dim_supplier') }}
+
+),
+
+dim_date AS (
+
+    SELECT *
+    FROM {{ ref('dim_date') }}
 
 ),
 
 fact_sales AS (
 
     SELECT
-        -- Degenerate dimensions / order identifiers
-        customer_order.o_orderkey AS order_key,
-        customer_order.l_linenumber AS line_number,
 
-        -- Dimension keys
-        dim_date.date_key,
+        -- Identificadores del pedido
+        order_cost.o_orderkey AS order_key,
+        order_cost.l_linenumber AS line_number,
+
+        -- Claves dimensionales
+        dim_customer.customer_key,
         dim_product.product_key,
-        dim_geography.geography_key,
+        dim_supplier.supplier_key,
+        dim_date.date_key,
 
-        -- Order status
-        customer_order.o_orderstatus AS order_status,
+        -- Información del pedido
+        order_cost.o_orderstatus AS order_status,
 
-        -- Sales measures
-        customer_order.l_quantity AS quantity_sold,
-        customer_order.gross_sales_amount,
-        customer_order.sales_amount_with_tax,
-        customer_order.product_cost,
-        customer_order.estimated_profit
+        -- Métricas de ventas
+        order_cost.l_quantity AS quantity_sold,
+        order_cost.gross_sales_amount,
+        order_cost.sales_amount_with_tax,
 
-    FROM customer_order
+        -- Métricas de costes y rentabilidad
+        order_cost.product_cost,
+        order_cost.estimated_profit
 
-    LEFT JOIN dim_date
-        ON customer_order.o_orderdate = dim_date.order_date
+    FROM order_cost
+
+    LEFT JOIN dim_customer
+        ON order_cost.o_custkey = dim_customer.customer_key
 
     LEFT JOIN dim_product
-        ON customer_order.p_partkey = dim_product.product_key
+        ON order_cost.p_partkey = dim_product.product_key
 
-    LEFT JOIN dim_geography
-        ON customer_order.n_nationkey = dim_geography.geography_key
+    LEFT JOIN dim_supplier
+        ON order_cost.l_suppkey = dim_supplier.supplier_key
+
+    LEFT JOIN dim_date
+        ON order_cost.o_orderdate = dim_date.full_date
 
 )
 
