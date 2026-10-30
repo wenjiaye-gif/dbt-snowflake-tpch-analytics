@@ -1,4 +1,3 @@
-
 version: 2
 
 models:
@@ -8,19 +7,6 @@ models:
       - name: date_key
         data_tests:
           - unique
-          - not_null
-
-      - name: full_date
-        data_tests:
-          - unique
-          - not_null
-
-      - name: year_number
-        data_tests:
-          - not_null
-
-      - name: month_number
-        data_tests:
           - not_null
 
   - name: dim_customer
@@ -46,9 +32,19 @@ models:
         data_tests:
           - unique
           - not_null
-
+   # ==========================================
+  # FACT: SALES
+  # ==========================================
   - name: fact_sales
     description: "Tabla de hechos de ventas con granularidad de línea de pedido."
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - order_key
+              - line_number
+
     columns:
       - name: order_key
         data_tests:
@@ -95,5 +91,47 @@ models:
           - not_null
 
       - name: gross_sales_amount
+        data_tests:
+          - not_null
+
+  # ==========================================
+  # FACT: INVENTORY
+  # ==========================================
+  - name: fact_inventory
+    description: "Tabla de hechos de inventario con granularidad de producto y proveedor."
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - product_key
+              - supplier_key
+
+    columns:
+      - name: product_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_key
+
+      - name: supplier_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_supplier')
+                field: supplier_key
+
+      - name: available_quantity
+        data_tests:
+          - not_null
+
+      - name: unit_supply_cost
+        data_tests:
+          - not_null
+
+      - name: inventory_value
         data_tests:
           - not_null

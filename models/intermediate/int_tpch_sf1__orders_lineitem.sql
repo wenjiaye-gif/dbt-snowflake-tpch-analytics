@@ -47,14 +47,16 @@ orders_lineitem AS (
         lineitem.l_receiptdate,
         lineitem.l_shipmode,
 
-        -- Importe después del descuento
-        lineitem.l_extendedprice * (1 - lineitem.l_discount)
-            AS gross_sales_amount,
+        ROUND(
+            lineitem.l_extendedprice * (1 - lineitem.l_discount),
+            2
+        ) AS gross_sales_amount,
 
-        -- Importe después del descuento y del impuesto
-        lineitem.l_extendedprice * (1 - lineitem.l_discount)
-            * (1 + lineitem.l_tax)
-            AS sales_amount_with_tax,
+        ROUND(
+            lineitem.l_extendedprice * (1 - lineitem.l_discount)
+            * (1 + lineitem.l_tax),
+            2
+        ) AS sales_amount_with_tax,
 
         -- Diferencia de días entre pedido y envío
         {{ calculate_diff_days(
