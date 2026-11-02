@@ -41,10 +41,7 @@ models:
     staging:
       +materialized: table
     intermediate:
-      staging_trans:
-        +materialized: table
-      joins:
-        +materialized: table
+      +materialized: view
     marts:
       +materialized: table
 
