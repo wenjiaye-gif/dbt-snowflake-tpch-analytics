@@ -21,16 +21,12 @@ fact_sales AS (
         l_partkey AS product_key,
         l_suppkey AS supplier_key,
         date_key,
-
-        -- Información del pedido
+        -- metricas y otras
         o_orderstatus AS order_status,
-
-        -- Métricas de ventas
         l_quantity AS quantity_sold,
         gross_sales_amount,
         sales_amount_with_tax,
 
-        -- Métricas de costes y rentabilidad
         product_cost,
         estimated_profit
 
