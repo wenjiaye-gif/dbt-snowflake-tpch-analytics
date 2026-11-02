@@ -1,6 +1,4 @@
 
-
-
 WITH order_cost AS (
 
     SELECT *
