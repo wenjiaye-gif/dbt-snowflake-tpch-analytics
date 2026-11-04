@@ -1,0 +1,76 @@
+version: 2
+
+models:
+  - name: stg_tpch_sf1__LINEITEM
+    columns:
+      - name: L_ORDERKEY
+        data_tests:
+          - not_null
+      - name: L_LINENUMBER
+        data_tests:
+          - not_null
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - L_ORDERKEY
+              - L_LINENUMBER
+
+  - name: stg_tpch_sf1__ORDERS
+    columns:
+      - name: O_ORDERKEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_tpch_sf1__REGION
+    columns:
+      - name: R_REGIONKEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_tpch_sf1__CUSTOMER
+    columns:
+      - name: C_CUSTKEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_tpch_sf1__PART
+    columns:
+      - name: P_PARTKEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_tpch_sf1__SUPPLIER
+    columns:
+      - name: S_SUPPKEY
+        data_tests:
+          - unique
+          - not_null
+
+  - name: stg_tpch_sf1__PARTSUPP
+    columns:
+      - name: PS_PARTKEY
+        data_tests:
+          - not_null
+      - name: PS_SUPPKEY
+        data_tests:
+          - not_null
+
+    data_tests:
+      - dbt_utils.unique_combination_of_columns:
+          arguments:
+            combination_of_columns:
+              - PS_PARTKEY
+              - PS_SUPPKEY
+
+  - name: stg_tpch_sf1__NATION
+    columns:
+      - name: N_NATIONKEY
+        data_tests:
+          - unique
+          - not_null
