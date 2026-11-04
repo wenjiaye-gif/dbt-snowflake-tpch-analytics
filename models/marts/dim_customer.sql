@@ -1,5 +1,3 @@
-
-
 WITH customer AS (
 
     SELECT *
