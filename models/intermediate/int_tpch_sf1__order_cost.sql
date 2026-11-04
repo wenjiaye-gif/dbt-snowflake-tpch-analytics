@@ -1,3 +1,4 @@
+-- calculate the cost of the orderline item
 WITH orders_lineitem AS (
 
     SELECT *
