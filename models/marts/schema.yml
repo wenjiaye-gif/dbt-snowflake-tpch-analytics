@@ -89,6 +89,7 @@ models:
       - name: quantity_sold
         data_tests:
           - not_null
+          - quantity_non_negative
 
       - name: gross_sales_amount
         data_tests:
