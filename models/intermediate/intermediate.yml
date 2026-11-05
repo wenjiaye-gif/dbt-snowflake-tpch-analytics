@@ -13,7 +13,7 @@ models:
       - name: o_orderkey
         data_tests:
           - not_null
-      - name: o_custkey
+      - name: l_linenumber
         data_tests:
           - not_null
     data_tests:
@@ -21,14 +21,14 @@ models:
         arguments:
           combination_of_columns:
             - o_orderkey
-            - o_custkey
+            - l_linenumber
 
   - name: int_tpch_sf1__order_cost
     columns:
     - name: o_orderkey
       data_tests:
         - not_null
-    - name: o_custkey
+    - name: l_linenumber
       data_tests:
         - not_null
     data_tests:
@@ -36,4 +36,4 @@ models:
         arguments:
           combination_of_columns:
             - o_orderkey
-            - o_custkey
+            - l_linenumber

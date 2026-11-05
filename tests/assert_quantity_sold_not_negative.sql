@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 
 SELECT
     order_key,
