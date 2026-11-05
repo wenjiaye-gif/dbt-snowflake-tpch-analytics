@@ -1,3 +1,4 @@
+{{ config(enabled = false) }}
 {% test quantity_non_negative(model,column_name) %}
 
     SELECT

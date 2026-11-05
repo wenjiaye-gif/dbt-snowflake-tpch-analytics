@@ -5,4 +5,16 @@ packages:
   - name: dbt_meta_testing
     package: tnightengale/dbt_meta_testing
     version: 0.4.0
-sha1_hash: b0f390b3cc4b2d922c740af43fcb19b023f68589
+  - name: dbt_expectations
+    package: metaplane/dbt_expectations
+    version: 0.10.10
+  - name: codegen
+    package: dbt-labs/codegen
+    version: 0.14.1
+  - name: audit_helper
+    package: dbt-labs/audit_helper
+    version: 0.14.0
+  - name: dbt_date
+    package: godatadriven/dbt_date
+    version: 0.21.0
+sha1_hash: efa422e1853e8f4fce02b8681fa5b5febd27e635
