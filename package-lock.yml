@@ -1,23 +1,26 @@
 packages:
-  - name: dbt_utils
-    package: dbt-labs/dbt_utils
-    version: 1.3.0
-  - name: dbt_meta_testing
-    package: tnightengale/dbt_meta_testing
-    version: 0.4.0
-  - name: dbt_expectations
-    package: metaplane/dbt_expectations
-    version: 0.10.10
-  - name: codegen
-    package: dbt-labs/codegen
-    version: 0.14.1
-  - name: audit_helper
-    package: dbt-labs/audit_helper
-    version: 0.14.0
-  - name: elementary
-    package: elementary-data/elementary
-    version: 0.26.1
-  - name: dbt_date
-    package: godatadriven/dbt_date
-    version: 0.21.0
-sha1_hash: 6cfd66e2c0c6403aed7cd543c4994fec975ea937
+- package: dbt-labs/dbt_utils
+  name: dbt_utils
+  version: 1.3.0
+- package: tnightengale/dbt_meta_testing
+  name: dbt_meta_testing
+  version: 0.4.0
+- package: metaplane/dbt_expectations
+  name: dbt_expectations
+  version: 0.10.10
+- package: dbt-labs/codegen
+  name: codegen
+  version: 0.14.1
+- package: dbt-labs/audit_helper
+  name: audit_helper
+  version: 0.14.0
+- package: elementary-data/elementary
+  name: elementary
+  version: 0.26.1
+- package: dbt-labs/dbt_project_evaluator
+  name: dbt_project_evaluator
+  version: 2.0.2
+- package: godatadriven/dbt_date
+  name: dbt_date
+  version: 0.21.0
+sha1_hash: 2795905e459f9831a965f900582c800c4159929d

@@ -40,12 +40,14 @@ tests:
     +store_failures: true
 
 
-
+vars:
+  exclude_packages: ["elementary"]
 
 
 models:
   elementary:
     +schema: elementary
+    
   tcph_sf1:
     +meta:
         required_tests: {"unique.*|not_null": 1}
