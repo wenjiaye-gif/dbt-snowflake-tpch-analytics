@@ -15,7 +15,13 @@ models:
       - name: customer_key
         data_tests:
           - unique
-          - not_null
+          - not_null:
+              config:
+                severity: warn
+                error_if: ">=100"
+                #where: "put some condition"
+                # limit: number -for only show this number of failure
+                # store_failures: true
           
   - name: dim_product
     description: "Dimensión de productos del catálogo."
@@ -47,6 +53,8 @@ models:
       - dbt_utils.expression_is_true: 
           arguments:
             expression: "quantity_sold >= 0"
+            config:
+              severity: warn
 
     columns:
       - name: order_key

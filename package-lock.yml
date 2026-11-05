@@ -14,7 +14,10 @@ packages:
   - name: audit_helper
     package: dbt-labs/audit_helper
     version: 0.14.0
+  - name: elementary
+    package: elementary-data/elementary
+    version: 0.26.1
   - name: dbt_date
     package: godatadriven/dbt_date
     version: 0.21.0
-sha1_hash: efa422e1853e8f4fce02b8681fa5b5febd27e635
+sha1_hash: 6cfd66e2c0c6403aed7cd543c4994fec975ea937
