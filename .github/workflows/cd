@@ -1,0 +1,42 @@
+name: Update Base Metadata (dbt Cloud)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  DBT_CLOUD_API_BASE: "https://cloud.getdbt.com/api/v2/accounts/${{ secrets.DBT_CLOUD_ACCOUNT_ID }}"
+  DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+
+jobs:
+  update-base:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install recce-cloud
+        run: pip install recce-cloud
+
+      - name: Retrieve artifacts from CD job
+        env:
+          DBT_CLOUD_CD_JOB_ID: ${{ secrets.DBT_CLOUD_CD_JOB_ID }}
+        run: |
+          set -eo pipefail
+          CD_RUNS_URL="${DBT_CLOUD_API_BASE}/runs/?job_definition_id=${DBT_CLOUD_CD_JOB_ID}&order_by=-id&limit=1"
+          CD_RUNS_RESPONSE=$(curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${CD_RUNS_URL}")
+          DBT_CLOUD_CD_RUN_ID=$(echo "${CD_RUNS_RESPONSE}" | jq -r ".data[0].id")
+          mkdir -p target
+          for artifact in manifest.json catalog.json; do
+            ARTIFACT_URL="${DBT_CLOUD_API_BASE}/runs/${DBT_CLOUD_CD_RUN_ID}/artifacts/${artifact}"
+            curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${ARTIFACT_URL}" -o "target/${artifact}"
+          done
+
+      - name: Upload to Recce Cloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: recce-cloud upload --type prod
