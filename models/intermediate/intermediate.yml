@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: int_tpch_sf1__geography
+    description: Contains information about the nation and the region it belongs to.
     columns:
       - name: nation_name
         data_tests:
@@ -9,6 +10,7 @@ models:
           - unique
           
   - name: int_tpch_sf1__orders_lineitem
+    description: Contains information about the orders and the orders items details.
     columns:
       - name: o_orderkey
         data_tests:
@@ -24,6 +26,7 @@ models:
             - l_linenumber
 
   - name: int_tpch_sf1__order_cost
+    description: Contain all details of the orders including its items and and prices.
     columns:
     - name: o_orderkey
       data_tests:
