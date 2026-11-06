@@ -40,8 +40,8 @@ tests:
     +store_failures: true
 
 
-#vars:
-  #exclude_packages: ["elementary"]
+vars:
+  exclude_packages: ["elementary"]
 
 
 models:
