@@ -1,0 +1,71 @@
+name: Validate PR (dbt Cloud)
+
+on:
+  pull_request:
+    branches: [main]
+
+env:
+  DBT_CLOUD_API_BASE: "https://cloud.getdbt.com/api/v2/accounts/${{ secrets.DBT_CLOUD_ACCOUNT_ID }}"
+  DBT_CLOUD_API_TOKEN: ${{ secrets.DBT_CLOUD_API_TOKEN }}
+
+jobs:
+  validate-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install recce-cloud
+        run: pip install recce-cloud
+
+      - name: Wait for dbt Cloud CI job
+        env:
+          DBT_CLOUD_CI_JOB_ID: ${{ secrets.DBT_CLOUD_CI_JOB_ID }}
+          CURRENT_GITHUB_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -eo pipefail
+          CI_RUNS_URL="${DBT_CLOUD_API_BASE}/runs/?job_definition_id=${DBT_CLOUD_CI_JOB_ID}&order_by=-id"
+          fetch_ci_run_id() {
+            CI_RUNS_RESPONSE=$(curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${CI_RUNS_URL}")
+            echo "${CI_RUNS_RESPONSE}" | jq -r ".data[] | select(.git_sha == \"${CURRENT_GITHUB_SHA}\") | .id" | head -n1
+          }
+          DBT_CLOUD_CI_RUN_ID=$(fetch_ci_run_id)
+          while [ -z "$DBT_CLOUD_CI_RUN_ID" ]; do
+            echo "Waiting for dbt Cloud CI job to start..."
+            sleep 10
+            DBT_CLOUD_CI_RUN_ID=$(fetch_ci_run_id)
+          done
+          echo "DBT_CLOUD_CI_RUN_ID=${DBT_CLOUD_CI_RUN_ID}" >> $GITHUB_ENV
+          CI_RUN_URL="${DBT_CLOUD_API_BASE}/runs/${DBT_CLOUD_CI_RUN_ID}/"
+          while true; do
+            CI_RUN_RESPONSE=$(curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${CI_RUN_URL}")
+            CI_RUN_SUCCESS=$(echo "${CI_RUN_RESPONSE}" | jq '.data.is_complete and .data.is_success')
+            CI_RUN_FAILED=$(echo "${CI_RUN_RESPONSE}" | jq '.data.is_complete and (.data.is_error or .data.is_cancelled)')
+            if $CI_RUN_SUCCESS; then
+              echo "dbt Cloud CI job completed successfully."
+              break
+            elif $CI_RUN_FAILED; then
+              status=$(echo ${CI_RUN_RESPONSE} | jq -r '.data.status_humanized')
+              echo "dbt Cloud CI job failed or was cancelled. Status: $status"
+              exit 1
+            fi
+            echo "Waiting for dbt Cloud CI job to complete..."
+            sleep 10
+          done
+
+      - name: Retrieve artifacts from CI job
+        run: |
+          set -eo pipefail
+          mkdir -p target
+          for artifact in manifest.json catalog.json; do
+            ARTIFACT_URL="${DBT_CLOUD_API_BASE}/runs/${DBT_CLOUD_CI_RUN_ID}/artifacts/${artifact}"
+            curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${ARTIFACT_URL}" -o "target/${artifact}"
+          done
+
+      - name: Upload to Recce Cloud
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: recce-cloud upload
