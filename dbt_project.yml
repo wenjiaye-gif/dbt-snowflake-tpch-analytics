@@ -61,4 +61,3 @@ models:
           "relationships": 1
       +materialized: table
 
-
