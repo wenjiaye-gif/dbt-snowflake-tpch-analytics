@@ -41,7 +41,7 @@ models:
    # ==========================================
   # FACT: SALES
   # ==========================================
-  - name: fact_sales
+  - name: fct_sales
     description: "Tabla de hechos de ventas con granularidad de línea de pedido."
 
     data_tests:
@@ -109,7 +109,7 @@ models:
   # ==========================================
   # FACT: INVENTORY
   # ==========================================
-  - name: fact_inventory
+  - name: fct_inventory
     description: "Tabla de hechos de inventario con granularidad de producto y proveedor."
 
     data_tests:

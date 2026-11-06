@@ -1,8 +1,8 @@
 
 {{ config(enabled = false) }}
-{% set old_relation = ref('fact_inventory_deprecated')  -%}
+{% set old_relation = ref('fct_inventory_deprecated')  -%}
 
-{% set dbt_relation = ref('fact_inventory') %}
+{% set dbt_relation = ref('fct_inventory') %}
 
 {{ audit_helper.compare_and_classify_relation_rows(
     a_relation = old_relation,

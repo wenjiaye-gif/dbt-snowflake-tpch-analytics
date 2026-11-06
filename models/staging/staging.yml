@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: stg_tpch_sf1__LINEITEM
+    description: cointain all orders items details.
     columns:
       - name: L_ORDERKEY
         data_tests:
@@ -18,6 +19,7 @@ models:
               - L_LINENUMBER
 
   - name: stg_tpch_sf1__ORDERS
+    description: contain all orders general details.
     columns:
       - name: O_ORDERKEY
         data_tests:
@@ -25,6 +27,7 @@ models:
           - not_null
 
   - name: stg_tpch_sf1__REGION
+    description: contain the region information.
     columns:
       - name: R_REGIONKEY
         data_tests:
@@ -32,6 +35,7 @@ models:
           - not_null
 
   - name: stg_tpch_sf1__CUSTOMER
+    description: Staging model that contain customer information.
     columns:
       - name: C_CUSTKEY
         data_tests:
@@ -39,6 +43,7 @@ models:
           - not_null
 
   - name: stg_tpch_sf1__PART
+    description: contain all piece information.
     columns:
       - name: P_PARTKEY
         data_tests:
@@ -46,6 +51,7 @@ models:
           - not_null
 
   - name: stg_tpch_sf1__SUPPLIER
+    description: contain all supplier infrmation.
     columns:
       - name: S_SUPPKEY
         data_tests:
@@ -53,6 +59,7 @@ models:
           - not_null
 
   - name: stg_tpch_sf1__PARTSUPP
+    description: contain the price of piece per supplier.
     columns:
       - name: PS_PARTKEY
         data_tests:
@@ -69,6 +76,7 @@ models:
               - PS_SUPPKEY
 
   - name: stg_tpch_sf1__NATION
+    description: contain all natiaon details.
     columns:
       - name: N_NATIONKEY
         data_tests:
