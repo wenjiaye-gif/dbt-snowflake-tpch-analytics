@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> ab21f28a558264e7f30c51a1be63e6889bd9bec8
 WITH order_cost AS (
 
     SELECT *
@@ -23,7 +26,7 @@ fact_sales AS (
         o_orderstatus AS order_status,
         l_quantity AS quantity_sold,
         gross_sales_amount,
-        sales_amount_with_tax,
+        ROUND(sales_amount_with_tax,2),
 
         product_cost,
         estimated_profit

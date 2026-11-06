@@ -52,11 +52,9 @@ orders_lineitem AS (
             2
         ) AS gross_sales_amount,
 
-        ROUND(
-            lineitem.l_extendedprice * (1 - lineitem.l_discount)
-            * (1 + lineitem.l_tax),
-            2
-        ) AS sales_amount_with_tax,
+
+        lineitem.l_extendedprice * (1 - lineitem.l_discount)
+            * (1 + lineitem.l_tax) AS sales_amount_with_tax,
 
         -- Diferencia de días entre pedido y envío
         {{ calculate_diff_days(

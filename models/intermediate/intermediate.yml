@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: int_tpch_sf1__geography
+    columns:
+      - name: nation_name
+        data_tests:
+          - not_null
+          - unique
+          
+  - name: int_tpch_sf1__orders_lineitem
+    columns:
+      - name: o_orderkey
+        data_tests:
+          - not_null
+      - name: l_linenumber
+        data_tests:
+          - not_null
+    data_tests:
+    - dbt_utils.unique_combination_of_columns:
+        arguments:
+          combination_of_columns:
+            - o_orderkey
+            - l_linenumber
+
+  - name: int_tpch_sf1__order_cost
+    columns:
+    - name: o_orderkey
+      data_tests:
+        - not_null
+    - name: l_linenumber
+      data_tests:
+        - not_null
+    data_tests:
+    - dbt_utils.unique_combination_of_columns:
+        arguments:
+          combination_of_columns:
+            - o_orderkey
+            - l_linenumber

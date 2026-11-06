@@ -15,8 +15,14 @@ models:
       - name: customer_key
         data_tests:
           - unique
-          - not_null
-
+          - not_null:
+              config:
+                severity: warn
+                error_if: ">=100"
+                #where: "put some condition"
+                # limit: number -for only show this number of failure
+                # store_failures: true
+          
   - name: dim_product
     description: "Dimensión de productos del catálogo."
     columns:
@@ -44,6 +50,11 @@ models:
             combination_of_columns:
               - order_key
               - line_number
+      - dbt_utils.expression_is_true: 
+          arguments:
+            expression: "quantity_sold >= 0"
+            config:
+              severity: warn
 
     columns:
       - name: order_key
@@ -89,7 +100,8 @@ models:
       - name: quantity_sold
         data_tests:
           - not_null
-
+          - quantity_non_negative
+          
       - name: gross_sales_amount
         data_tests:
           - not_null
