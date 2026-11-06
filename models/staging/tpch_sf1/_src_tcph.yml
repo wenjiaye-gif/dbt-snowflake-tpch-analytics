@@ -8,6 +8,7 @@ sources:
 
     tables:
       - name: CUSTOMER
+        description: customer information.
         columns:
           - name: C_CUSTKEY
             data_tests:
@@ -22,6 +23,7 @@ sources:
           - name: C_COMMENT
 
       - name: LINEITEM
+        description: order details.
         columns:
           - name: L_ORDERKEY
             data_tests:
@@ -49,6 +51,7 @@ sources:
           - name: L_COMMENT
 
       - name: NATION
+        description: nation information.
         columns:
           - name: N_NATIONKEY
             data_tests:
@@ -59,6 +62,7 @@ sources:
           - name: N_COMMENT
 
       - name: ORDERS
+        description: orders information.
         columns:
           - name: O_ORDERKEY
             data_tests:
@@ -74,6 +78,7 @@ sources:
           - name: O_COMMENT
 
       - name: PART
+        description: piece information
         columns:
           - name: P_PARTKEY
             data_tests:
@@ -89,6 +94,7 @@ sources:
           - name: P_COMMENT
 
       - name: PARTSUPP
+        description: price of piece per supplier.
         columns:
           - name: PS_PARTKEY
             data_tests:
@@ -101,6 +107,7 @@ sources:
           - name: PS_COMMENT
 
       - name: REGION
+        description: region information.
         columns:
           - name: R_REGIONKEY
             data_tests:
@@ -110,6 +117,7 @@ sources:
           - name: R_COMMENT
 
       - name: SUPPLIER
+        description: supplier information.
         columns:
           - name: S_SUPPKEY
             data_tests:
