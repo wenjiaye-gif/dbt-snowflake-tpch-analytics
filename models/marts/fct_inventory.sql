@@ -14,7 +14,7 @@ fact_inventory AS (
 
         -- Métricas de inventario
         ps_availqty AS available_quantity,
-        ps_supplycost AS unit_supply_cost,
+        ps_supplycost AS unit_cost,
 
         -- Valor total del inventario
         ps_availqty * ps_supplycost AS inventory_value
