@@ -8,7 +8,6 @@ exposures:
     depends_on:
       - ref('fct_sales')
       - ref('dim_product')
-      - source('tpch_sf1', 'LINEITEM')
 
     owner:
       name: Wen

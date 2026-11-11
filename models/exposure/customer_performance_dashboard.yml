@@ -8,7 +8,6 @@ exposures:
     depends_on:
       - ref('fct_sales')
       - ref('dim_customer')
-      - source('tpch_sf1', 'PARTSUPP')
 
     owner:
       name: Wen
