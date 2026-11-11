@@ -2,7 +2,8 @@
 {{
     config(
         materialized='incremental',
-        unique_key=['l_orderkey', 'l_linenumber']
+        unique_key=['l_orderkey', 'l_linenumber'],
+        incremental_strategy='merge'
     )
 }}
 
@@ -38,9 +39,9 @@ renamed as (
 
     {% if is_incremental() %}
 
-    where l_shipdate > (
-        select coalesce(max(l_shipdate), '1900-01-01'::date)
-        from {{ this }}
+    WHERE l_orderkey NOT IN (
+        SELECT l_orderkey
+        FROM {{ this }}
     )
 
     {% endif %}

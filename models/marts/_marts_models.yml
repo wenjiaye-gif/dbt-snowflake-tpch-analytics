@@ -3,6 +3,8 @@ version: 2
 models:
   - name: dim_date
     description: "Dimensión temporal para analizar las ventas por fecha, mes y año."
+    config: 
+      tags: ['dim']
     columns:
       - name: date_key
         data_tests:
@@ -11,6 +13,8 @@ models:
 
   - name: dim_customer
     description: "Dimensión de clientes enriquecida con información geográfica."
+    config: 
+      tags: ['dim']
     columns:
       - name: customer_key
         data_tests:
@@ -25,6 +29,8 @@ models:
           
   - name: dim_product
     description: "Dimensión de productos del catálogo."
+    config: 
+      tags: ['dim']
     columns:
       - name: product_key
         data_tests:
@@ -33,6 +39,8 @@ models:
 
   - name: dim_supplier
     description: "Dimensión de proveedores enriquecida con información geográfica."
+    config: 
+      tags: ['dim']
     columns:
       - name: supplier_key
         data_tests:
@@ -43,7 +51,8 @@ models:
   # ==========================================
   - name: fct_sales
     description: "Tabla de hechos de ventas con granularidad de línea de pedido."
-
+    config: 
+      tags: ['fct']
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:
@@ -111,7 +120,8 @@ models:
   # ==========================================
   - name: fct_inventory
     description: "Tabla de hechos de inventario con granularidad de producto y proveedor."
-
+    config: 
+      tags: ['fct']
     data_tests:
       - dbt_utils.unique_combination_of_columns:
           arguments:

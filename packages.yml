@@ -20,3 +20,7 @@ packages:
 
   - package: dbt-labs/dbt_project_evaluator
     version: 2.0.2
+
+  - private: wenjiaye-gif/visual_demo
+    provider: github
+    revision: main

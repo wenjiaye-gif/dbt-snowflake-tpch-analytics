@@ -1,0 +1,14 @@
+exposures:
+
+  - name: ORDER_ANALYSIS
+    type: analysis
+    description: >
+      analysis that ....
+
+    depends_on:
+      - ref('fct_sales')
+      - ref('dim_product')
+
+    owner:
+      name: Wen
+      email: wenjia.ye@sdggroup.com
