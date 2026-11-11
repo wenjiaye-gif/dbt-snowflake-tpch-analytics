@@ -2,23 +2,17 @@ with
 
 source as (
 
-    select * from {{ source('tpch_sf1', 'CUSTOMER') }}
+    select * from {{ ref('customer_snapshot') }}
 
 ),
 
 renamed as (
 
-    select
-        c_custkey,
-        c_name,
-        c_address,
-        c_nationkey,
-        c_phone,
-        c_acctbal,
-        c_mktsegment,
-        c_comment
+    select *
 
     from source
+
+    where dbt_valid_to is null
 
 )
 
