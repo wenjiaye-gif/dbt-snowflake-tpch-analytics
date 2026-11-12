@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ source('tpch_sf1', 'PART') }}
+    select * from {{ ref('part_snapshot') }}
 
 ),
 
@@ -20,7 +20,7 @@ renamed as (
         p_comment
 
     from source
-
+    where dbt_valid_to is null
 )
 
 select * from renamed
