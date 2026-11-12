@@ -10,5 +10,5 @@ exposures:
       - ref('dim_customer')
 
     owner:
-      name: Wen
+      name: Wenjia
       email: wenjia.ye@sdggroup.com
