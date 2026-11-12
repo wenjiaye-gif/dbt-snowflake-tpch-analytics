@@ -50,10 +50,13 @@ models:
       required_tests: { "unique.*|not_null": 1 }
     staging:
       +materialized: table
+      +tags: ["staging"]
     intermediate:
       +materialized: view
+      +tags: ["intermediate"]
     marts:
       +meta:
         required_tests:
           "relationships": 1
       +materialized: table
+      +tags: ["marts"]
