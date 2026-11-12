@@ -8,10 +8,6 @@ packages:
 - package: godatadriven/dbt_date
   name: dbt_date
   version: 0.21.0
-- private: wenjiaye-gif/visual_demo
-  name: dbt_demo
-  revision: 6e627f8482b2751b145cc249ebcdf47fbd55855f
-  provider: github
 - package: metaplane/dbt_expectations
   name: dbt_expectations
   version: 0.10.10
@@ -27,4 +23,4 @@ packages:
 - package: elementary-data/elementary
   name: elementary
   version: 0.26.1
-sha1_hash: 581afb4a33d391c6615c982a5559d233eb306f12
+sha1_hash: a0d02be2334886ee84e5e6075323d1ff47c08c96
