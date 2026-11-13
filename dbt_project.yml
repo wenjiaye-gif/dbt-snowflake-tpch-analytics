@@ -34,6 +34,13 @@ clean-targets: # directories to be removed by `dbt clean`
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
+flags:
+  ai_provider: openai
+
+skills:
+  dbt_project_evaluator:
+    +enabled: false
+
 tests:
   tcph_sf1:
     +store_failures: true
