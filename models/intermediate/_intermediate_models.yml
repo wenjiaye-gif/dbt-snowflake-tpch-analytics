@@ -41,7 +41,7 @@ models:
             - o_orderkey
             - l_linenumber
   - name: int_tpch_sf1__negative_account_balance
-    description: Contain all customers with a negative account balance.
+    description: Contain all customers information with a negative account balance.
     columns:
     - name: c_custkey
       data_tests:
