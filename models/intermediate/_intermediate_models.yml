@@ -18,6 +18,14 @@ models:
       - name: l_linenumber
         data_tests:
           - not_null
+      - name: l_quantity
+        data_tests:
+          - dbt_expectations.expect_column_sum_to_be_between:
+              arguments: 
+                min_value: 1
+                max_value: 500
+                group_by: 
+                  - o_orderkey
     data_tests:
     - dbt_utils.unique_combination_of_columns:
         arguments:
