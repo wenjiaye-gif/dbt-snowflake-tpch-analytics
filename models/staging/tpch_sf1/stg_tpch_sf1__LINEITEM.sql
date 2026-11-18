@@ -7,17 +7,16 @@
     )
 }}
 
-with
+WITH source AS (
 
-source as (
-
-    select * from {{ source('tpch_sf1', 'LINEITEM') }}
+    SELECT *
+    FROM {{ source('tpch_sf1', 'LINEITEM') }}
 
 ),
 
-renamed as (
+renamed AS (
 
-    select
+    SELECT
         l_orderkey,
         l_partkey,
         l_suppkey,
@@ -33,19 +32,20 @@ renamed as (
         l_receiptdate,
         l_shipinstruct,
         l_shipmode,
-        l_comment
+        l_comment,
+        update_at
 
-    from source
+    FROM source
 
     {% if is_incremental() %}
 
-    WHERE l_orderkey NOT IN (
-        SELECT l_orderkey
-        FROM {{ this }}
-    )
+        WHERE update_at > (
+            SELECT COALESCE(MAX(update_at), '1900-01-01'::TIMESTAMP_NTZ)
+            FROM {{ this }}
+        )
 
     {% endif %}
 
 )
 
-select * from renamed
+SELECT * FROM renamed
