@@ -20,7 +20,6 @@ renamed as (
         p_comment
 
     from source
-    where dbt_valid_to is null
 )
 
 select * from renamed

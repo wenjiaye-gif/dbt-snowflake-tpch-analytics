@@ -12,8 +12,6 @@ renamed as (
 
     from source
 
-    where dbt_valid_to is null
-
 )
 
 select * from renamed
