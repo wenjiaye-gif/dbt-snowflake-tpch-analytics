@@ -14,6 +14,21 @@ WITH source AS (
 
 ),
 
+{% if is_incremental() %}
+
+max_update AS (
+
+    SELECT
+        COALESCE(
+            MAX(update_at),
+            '1900-01-01'::TIMESTAMP_NTZ
+        ) AS last_update_at
+    FROM {{ this }}
+
+),
+
+{% endif %}
+
 renamed AS (
 
     SELECT
@@ -38,14 +53,13 @@ renamed AS (
     FROM source
 
     {% if is_incremental() %}
-
-        WHERE update_at > (
-            SELECT COALESCE(MAX(update_at), '1900-01-01'::TIMESTAMP_NTZ)
-            FROM {{ this }}
-        )
-
+    WHERE update_at > (
+        SELECT last_update_at
+        FROM max_update
+    )
     {% endif %}
 
 )
 
-SELECT * FROM renamed
+SELECT *
+FROM renamed
