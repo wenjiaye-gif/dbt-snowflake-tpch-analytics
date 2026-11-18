@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ ref('customer_snapshot') }}
+    select * from {{ source('tpch_sf1', 'CUSTOMER') }}
 
 ),
 
@@ -11,8 +11,6 @@ renamed as (
     select *
 
     from source
-
-    where dbt_valid_to is null
 
 )
 

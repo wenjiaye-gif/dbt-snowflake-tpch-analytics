@@ -8,7 +8,7 @@ sources:
 
     tables:
       - name: CUSTOMER
-        description: customer information.
+        description: Contains all customer information.
         columns:
           - name: C_CUSTKEY
             data_tests:
