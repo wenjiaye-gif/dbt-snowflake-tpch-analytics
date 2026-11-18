@@ -3,129 +3,39 @@ version: 2
 sources:
   - name: tpch_sf1
     description: '{{ doc("source_description") }}'
-    database: SNOWFLAKE_SAMPLE_DATA
-    schema: TPCH_SF1
+    database: TCPH
+    schema: TCPH_SF1_DATA
 
     tables:
       - name: CUSTOMER
         description: Contains all customer information.
-        columns:
-          - name: C_CUSTKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: C_NAME
-          - name: C_ADDRESS
-          - name: C_NATIONKEY
-          - name: C_PHONE
-          - name: C_ACCTBAL
-          - name: C_MKTSEGMENT
-          - name: C_COMMENT
 
       - name: LINEITEM
-        description: order details.
-        columns:
-          - name: L_ORDERKEY
-            data_tests:
-              - not_null
-          - name: L_PARTKEY
-            data_tests:
-              - not_null
-          - name: L_SUPPKEY
-            data_tests:
-              - not_null
-          - name: L_LINENUMBER
-            data_tests:
-              - not_null
-          - name: L_QUANTITY
-          - name: L_EXTENDEDPRICE
-          - name: L_DISCOUNT
-          - name: L_TAX
-          - name: L_RETURNFLAG
-          - name: L_LINESTATUS
-          - name: L_SHIPDATE
-          - name: L_COMMITDATE
-          - name: L_RECEIPTDATE
-          - name: L_SHIPINSTRUCT
-          - name: L_SHIPMODE
-          - name: L_COMMENT
+        description: Order details.
+        config:
+          loaded_at_field: UPDATE_AT
+          freshness:
+            warn_after:
+              count: 1
+              period: day
+            error_after:
+              count: 2
+              period: day
 
       - name: NATION
-        description: nation information.
-        columns:
-          - name: N_NATIONKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: N_NAME
-          - name: N_REGIONKEY
-          - name: N_COMMENT
+        description: Nation information.
 
       - name: ORDERS
-        description: orders information.
-        columns:
-          - name: O_ORDERKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: O_CUSTKEY
-          - name: O_ORDERSTATUS
-          - name: O_TOTALPRICE
-          - name: O_ORDERDATE
-          - name: O_ORDERPRIORITY
-          - name: O_CLERK
-          - name: O_SHIPPRIORITY
-          - name: O_COMMENT
+        description: Orders information.
 
       - name: PART
-        description: piece information
-        columns:
-          - name: P_PARTKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: P_NAME
-          - name: P_MFGR
-          - name: P_BRAND
-          - name: P_TYPE
-          - name: P_SIZE
-          - name: P_CONTAINER
-          - name: P_RETAILPRICE
-          - name: P_COMMENT
+        description: Piece information.
 
       - name: PARTSUPP
-        description: price of piece per supplier.
-        columns:
-          - name: PS_PARTKEY
-            data_tests:
-              - not_null
-          - name: PS_SUPPKEY
-            data_tests:
-              - not_null
-          - name: PS_AVAILQTY
-          - name: PS_SUPPLYCOST
-          - name: PS_COMMENT
+        description: Price of piece per supplier.
 
       - name: REGION
-        description: region information.
-        columns:
-          - name: R_REGIONKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: R_NAME
-          - name: R_COMMENT
+        description: Region information.
 
       - name: SUPPLIER
-        description: supplier information.
-        columns:
-          - name: S_SUPPKEY
-            data_tests:
-              - unique
-              - not_null
-          - name: S_NAME
-          - name: S_ADDRESS
-          - name: S_NATIONKEY
-          - name: S_PHONE
-          - name: S_ACCTBAL
-          - name: S_COMMENT
+        description: Supplier information.
