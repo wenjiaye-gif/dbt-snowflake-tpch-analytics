@@ -3,8 +3,8 @@ version: 2
 sources:
   - name: tpch_sf1
     description: '{{ doc("source_description") }}'
-    database: SNOWFLAKE_SAMPLE_DATA
-    schema: TPCH_SF1
+    database: TCPH
+    schema: TCPH_SF1_DATA
 
     tables:
       - name: CUSTOMER
