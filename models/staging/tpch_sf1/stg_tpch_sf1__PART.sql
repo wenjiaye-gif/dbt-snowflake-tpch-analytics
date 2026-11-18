@@ -2,7 +2,7 @@ with
 
 source as (
 
-    select * from {{ ref('part_snapshot') }}
+    select * from {{ source('tpch_sf1', 'PART') }}
 
 ),
 
