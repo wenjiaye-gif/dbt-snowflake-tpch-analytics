@@ -64,7 +64,16 @@ jobs:
             ARTIFACT_URL="${DBT_CLOUD_API_BASE}/runs/${DBT_CLOUD_CI_RUN_ID}/artifacts/${artifact}"
             curl -sSf -H "Authorization: Bearer ${DBT_CLOUD_API_TOKEN}" "${ARTIFACT_URL}" -o "target/${artifact}"
           done
+      - name: Validate dbt artifacts
+        run: |
+          echo "Manifest nodes:"
+          jq '.nodes | length' target/manifest.json
 
+          echo "Catalog nodes:"
+          jq '.nodes | length' target/catalog.json
+
+          echo "Artifact sizes:"
+          ls -lh target/manifest.json target/catalog.json
       - name: Upload to Recce Cloud
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
