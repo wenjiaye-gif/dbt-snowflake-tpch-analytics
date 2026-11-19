@@ -48,8 +48,16 @@ models:
           combination_of_columns:
             - o_orderkey
             - l_linenumber
+
   - name: int_tpch_sf1__negative_account_balance
     description: Contain all customers information with a negative account balance.
+    columns:
+    - name: c_custkey
+      data_tests:
+        - unique
+        - not_null
+  - name: int_tpch_sf1__positive_account_balance
+    description: Contain all customers information with a positive account balance.
     columns:
     - name: c_custkey
       data_tests:
