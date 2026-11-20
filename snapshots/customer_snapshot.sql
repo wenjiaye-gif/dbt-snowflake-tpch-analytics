@@ -1,6 +1,7 @@
 
 {% snapshot customer_snapshot %}
 
+
 {{
     config(
         target_schema = 'snapshots',
