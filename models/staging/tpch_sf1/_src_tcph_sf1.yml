@@ -19,7 +19,7 @@ sources:
               count: 1
               period: day
             error_after:
-              count: 2
+              count: 7
               period: day
 
       - name: NATION
