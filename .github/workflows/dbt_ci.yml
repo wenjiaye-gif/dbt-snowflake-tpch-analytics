@@ -1,5 +1,3 @@
-
-
 name: dbt CI
 
 on:
@@ -144,7 +142,8 @@ jobs:
 
               schemas = [
                   schema,
-                  schema + "_DBT_TEST__AUDIT"
+                  schema + "_DBT_TEST__AUDIT",
+                  schema + "_ELEMENTARY"
               ]
 
               for name in schemas:
