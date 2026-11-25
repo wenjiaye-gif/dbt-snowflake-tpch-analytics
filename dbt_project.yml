@@ -37,10 +37,6 @@ clean-targets: # directories to be removed by `dbt clean`
 flags:
   ai_provider: openai
 
-skills:
-  dbt_project_evaluator:
-    +enabled: false
-
 tests:
   tcph_sf1:
     +store_failures: true
