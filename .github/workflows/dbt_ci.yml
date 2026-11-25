@@ -1,0 +1,87 @@
+
+name: dbt CI
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dbt-ci:
+    name: Validate dbt project
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_PROFILES_DIR: ${{ github.workspace }}/.dbt
+      CI_SCHEMA: WYE_TCPH_CI_PR_${{ github.event.pull_request.number || github.run_id }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dbt
+        run: |
+          python -m pip install --upgrade pip
+          pip install dbt-core==1.12.7 dbt-snowflake==1.12.5
+
+      - name: Create profiles directory
+        run: mkdir -p "$DBT_PROFILES_DIR"
+
+      - name: Generate temporary profiles.yml
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          profile = {
+              "tcph_sf1": {
+                  "target": "ci",
+                  "outputs": {
+                      "ci": {
+                          "type": "snowflake",
+                          "account": os.environ["SNOWFLAKE_ACCOUNT"],
+                          "user": os.environ["SNOWFLAKE_USER"],
+                          "password": os.environ["SNOWFLAKE_PASSWORD"],
+                          "warehouse": os.environ["SNOWFLAKE_WAREHOUSE"],
+                          "database": os.environ["SNOWFLAKE_DATABASE"],
+                          "schema": os.environ["CI_SCHEMA"],
+                          "threads": 4
+                      }
+                  }
+              }
+          }
+
+          path = os.path.join(
+              os.environ["DBT_PROFILES_DIR"],
+              "profiles.yml"
+          )
+
+          with open(path, "w") as file:
+              json.dump(profile, file, indent=2)
+          PY
+
+      - name: Install dbt dependencies
+        run: dbt deps --project-dir . --profiles-dir "$DBT_PROFILES_DIR"
+
+      - name: Check Snowflake connection
+        run: dbt debug --project-dir . --profiles-dir "$DBT_PROFILES_DIR"
+
+      - name: Build and test dbt models
+        run: dbt build --project-dir . --profiles-dir "$DBT_PROFILES_DIR"
